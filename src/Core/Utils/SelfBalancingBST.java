@@ -38,7 +38,8 @@ public class SelfBalancingBST extends BinarySearchTree {
      *
      * Convención: si el nodo es null, su altura es 0.
      */
-    protected int getHeight(NodeCell node) {
+    @Override
+    public int getHeight(NodeCell node) {
         if (node == null) {
             return 0;
         }

@@ -49,7 +49,7 @@ public class BinaryTree {
      * @param root nodo raíz del subárbol
      * @return altura entera
      */
-    protected int getHeight(NodeCell root) {
+    public int getHeight(NodeCell root) {
         if (root == null) {
             return -1;
         }

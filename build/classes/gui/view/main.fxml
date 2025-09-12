@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.Group?>
+<?import javafx.scene.control.*?>
+
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="gui.controller.MainController">
+
+    <!-- Menú superior -->
+    <top>
+        <MenuBar>
+            <menus>
+                <Menu text="Árbol">
+                    <items>
+                        <MenuItem text="Insertar" onAction="#onInsertNode"/>
+                        <MenuItem text="Eliminar" onAction="#onDeleteNode"/>
+                        <MenuItem text="Buscar"   onAction="#onSearchNode"/>
+                    </items>
+                </Menu>
+            </menus>
+        </MenuBar>
+    </top>
+
+    <!-- Área central para el árbol -->
+    <center>
+        <Pane fx:id="rootPane" prefWidth="1280" prefHeight="720" style="-fx-background-color: white;">
+            <!-- Este Group contendrá los nodos y aristas del árbol -->
+            <children>
+                <Group fx:id="treeGroup"/>
+            </children>
+        </Pane>
+    </center>
+
+</BorderPane>
