@@ -14,6 +14,8 @@ import javafx.scene.text.Text;
 public class Tree {
 
     private final Group group;
+    private final Color NORMAL_COLOR = Color.LIGHTBLUE;
+    private final Color HOVER_COLOR = Color.RED;
 
     public Tree(Group group) {
         this.group = group;
@@ -22,10 +24,12 @@ public class Tree {
     public void drawTree(BinaryTree tree) {
         group.getChildren().clear();
         NodeCell root = tree.root;
-        if (root == null) return;
+        if (root == null) {
+            return;
+        }
 
-        double width = 1920*4;
-        double height = 1080*4;
+        double width = 1920 * 4;
+        double height = 1080 * 4;
 
         int heightTree = tree.getHeight(tree.root);
         double yStep = height / (heightTree + 1);
@@ -37,29 +41,44 @@ public class Tree {
         for (NodePosition np : positions) {
             if (np.node.left != null) {
                 NodePosition leftPos = findPos(positions, np.node.left);
-                group.getChildren().add(new Line(np.x, np.y, leftPos.x, leftPos.y));
+                Line line = new Line(np.x, np.y, leftPos.x, leftPos.y);
+                line.setStroke(Color.BLACK);
+                group.getChildren().add(line);
             }
             if (np.node.right != null) {
                 NodePosition rightPos = findPos(positions, np.node.right);
-                group.getChildren().add(new Line(np.x, np.y, rightPos.x, rightPos.y));
+                Line line = new Line(np.x, np.y, rightPos.x, rightPos.y);
+                line.setStroke(Color.BLACK);
+                group.getChildren().add(line);
             }
         }
 
         // Nodos
         for (NodePosition np : positions) {
-            Circle c = new Circle(np.x, np.y, 25, Color.LIGHTBLUE);
-            Text t = new Text(np.x - 10, np.y + 4, np.node.cell.ISO3);  
-            group.getChildren().addAll(c, t);
+            Circle circle = new Circle(np.x, np.y, 25, NORMAL_COLOR);
+            Text text = new Text(np.x - 10, np.y + 4, np.node.cell.ISO3);
+
+            // Agregar eventos de hover al círculo
+            circle.setOnMouseEntered(e -> circle.setFill(HOVER_COLOR));
+            circle.setOnMouseExited(e -> circle.setFill(NORMAL_COLOR));
+
+            // Agregar eventos de hover al texto también
+            text.setOnMouseEntered(e -> circle.setFill(HOVER_COLOR));
+            text.setOnMouseExited(e -> circle.setFill(NORMAL_COLOR));
+
+            group.getChildren().addAll(circle, text);
         }
     }
 
     private void computePositions(NodeCell node,
-                                  int depth,
-                                  double xMin,
-                                  double xMax,
-                                  double yStep,
-                                  List<NodePosition> positions) {
-        if (node == null) return;
+            int depth,
+            double xMin,
+            double xMax,
+            double yStep,
+            List<NodePosition> positions) {
+        if (node == null) {
+            return;
+        }
 
         double xMid = (xMin + xMax) / 2.0;
         double y = depth * yStep;
@@ -71,7 +90,9 @@ public class Tree {
 
     private NodePosition findPos(List<NodePosition> list, NodeCell target) {
         for (NodePosition np : list) {
-            if (np.node == target) return np;
+            if (np.node == target) {
+                return np;
+            }
         }
         return null;
     }

@@ -14,6 +14,7 @@ public class MainApp extends Application {
 
         stage.setTitle("Árbol");
         stage.setScene(scene);
+        stage.setMaximized(true);
         stage.show();
     }
 

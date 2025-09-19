@@ -3,34 +3,79 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.Group?>
 <?import javafx.scene.control.*?>
+<?import javafx.geometry.Insets?>
 
 <BorderPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
-            fx:controller="gui.controller.MainController">
+            fx:controller="gui.controller.MainController"
+            prefWidth="1024" prefHeight="768">  <!-- Tamaño reducido para ventana normal -->
 
-    <!-- Menú superior -->
+    <!-- Menú superior mejorado -->
     <top>
         <MenuBar>
             <menus>
                 <Menu text="Árbol">
                     <items>
-                        <MenuItem text="Insertar" onAction="#onInsertNode"/>
-                        <MenuItem text="Eliminar" onAction="#onDeleteNode"/>
-                        <MenuItem text="Buscar"   onAction="#onSearchNode"/>
+                        <MenuItem text="Visualización" onAction="#showVisualizationTab"/>
+                        <MenuItem text="Insertar" onAction="#showInsertTab"/>
+                        <MenuItem text="Eliminar" onAction="#showDeleteTab"/>
+                        <MenuItem text="Buscar" onAction="#showSearchTab"/>
+                    </items>
+                </Menu>
+                <!-- Menú adicional para controles de debug -->
+                <Menu text="Debug">
+                    <items>
+                        <MenuItem text="Mostrar variables" onAction="#showDebugInfo"/>
                     </items>
                 </Menu>
             </menus>
         </MenuBar>
     </top>
 
-    <!-- Área central para el árbol -->
+    <!-- Área central con TabPane para múltiples vistas -->
     <center>
-        <Pane fx:id="rootPane" prefWidth="1280" prefHeight="720" style="-fx-background-color: white;">
-            <!-- Este Group contendrá los nodos y aristas del árbol -->
-            <children>
-                <Group fx:id="treeGroup"/>
-            </children>
-        </Pane>
+        <TabPane fx:id="mainTabPane" tabClosingPolicy="UNAVAILABLE">
+            <!-- Pestaña de visualización del árbol -->
+            <Tab text="Visualización" fx:id="visualizationTab">
+                <Pane fx:id="rootPane" prefWidth="1000" prefHeight="700" 
+                      style="-fx-background-color: white; -fx-border-color: lightgray;">
+                    <Group fx:id="treeGroup"/>
+                </Pane>
+            </Tab>
+            
+            <!-- Pestañas para operaciones -->
+            <Tab text="Insertar" fx:id="insertTab">
+                <VBox spacing="10" alignment="TOP_LEFT" style="-fx-padding: 20;">
+                    <!-- Contenido de inserción aquí -->
+                    <Label text="Formulario de inserción"/>
+                    <TextField fx:id="insertField" promptText="Valor a insertar"/>
+                    <Button text="Insertar" onAction="#onInsertNode"/>
+                </VBox>
+            </Tab>
+            
+            <Tab text="Eliminar" fx:id="deleteTab">
+                <VBox spacing="10" alignment="TOP_LEFT" style="-fx-padding: 20;">
+                    <!-- Contenido de eliminación aquí -->
+                    <Label text="Formulario de eliminación"/>
+                    <TextField fx:id="deleteField" promptText="Valor a eliminar"/>
+                    <Button text="Eliminar" onAction="#onDeleteNode"/>
+                </VBox>
+            </Tab>
+            
+            <Tab text="Buscar" fx:id="searchTab">
+                <VBox spacing="10" alignment="TOP_LEFT" style="-fx-padding: 20;">
+                    <!-- Contenido de búsqueda aquí -->
+                    <Label text="Formulario de búsqueda"/>
+                    <TextField fx:id="searchField" promptText="Valor a buscar"/>
+                    <Button text="Buscar" onAction="#onSearchNode"/>
+                </VBox>
+            </Tab>
+        </TabPane>
     </center>
 
+    <!-- Barra inferior para información de debug -->
+    <bottom>
+        <Label fx:id="debugLabel" text="Debug: escala=1.0, x=0, y=0" 
+               style="-fx-background-color: #eee; -fx-padding: 5;"/>
+    </bottom>
 </BorderPane>
