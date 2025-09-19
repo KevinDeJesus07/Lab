@@ -28,8 +28,8 @@ public class Tree {
             return;
         }
 
-        double width = 1920 * 4;
-        double height = 1080 * 4;
+        double width = 1920 * 10;
+        double height = 1080 * 10;
 
         int heightTree = tree.getHeight(tree.root);
         double yStep = height / (heightTree + 1);

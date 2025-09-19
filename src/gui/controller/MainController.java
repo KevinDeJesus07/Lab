@@ -46,9 +46,9 @@ public class MainController {
     private final StringProperty debugInfo = new SimpleStringProperty();
 
     // Valores iniciales configurables
-    private static final double INITIAL_SCALE = 0.24; // Zoom inicial al 80%
-    private static final double INITIAL_X = -2890.0;   // Posición X inicial
-    private static final double INITIAL_Y = -1700.0;    // Posición Y inicial
+    private static final double INITIAL_SCALE = 0.1; // Zoom inicial al 80%
+    private static final double INITIAL_X = -8640;   // Posición X inicial
+    private static final double INITIAL_Y = -4940;    // Posición Y inicial
 
     @FXML
     private void initialize() {
@@ -66,7 +66,7 @@ public class MainController {
         // Zoom
         rootPane.addEventFilter(ScrollEvent.SCROLL, e -> {
             double factor = e.getDeltaY() > 0 ? 1.1 : 0.9;
-            double newScale = Math.max(0.24, Math.min(1.0, scale.get() * factor));
+            double newScale = Math.max(0.1, Math.min(1.0, scale.get() * factor));
             scale.set(newScale);
             applyDragLimits(treeGroup.getTranslateX(), treeGroup.getTranslateY());
             updateDebugPosition();
@@ -109,20 +109,20 @@ public class MainController {
         // Definir los límites para diferentes niveles de zoom
         // Estos son valores de ejemplo, ajústalos según tus necesidades
         // Para zoom 1.0 (máximo)
-        double xMinAtMaxZoom = -6000;
-        double xMaxAtMaxZoom = 500;
-        double yMinAtMaxZoom = -3200;
-        double yMaxAtMaxZoom = 365;
+        double xMinAtMaxZoom = -17350;
+        double xMaxAtMaxZoom = 250;
+        double yMinAtMaxZoom = -8900;
+        double yMaxAtMaxZoom = -950;
 
-        // Para zoom 0.24 (mínimo)
-        double xMinAtMinZoom = -2890;
-        double xMaxAtMinZoom = -2890; // Mismo valor para min y max = posición fija
-        double yMinAtMinZoom = -1700;
-        double yMaxAtMinZoom = -1700; // Mismo valor para min y max = posición fija
+        // Para zoom 0.1 (mínimo)
+        double xMinAtMinZoom = -8640;
+        double xMaxAtMinZoom = -8640; // Mismo valor para min y max = posición fija
+        double yMinAtMinZoom = -4940;
+        double yMaxAtMinZoom = -4940; // Mismo valor para min y max = posición fija
 
         // Interpolar los límites según el nivel de zoom actual
         // Factor de interpolación (0 a 1) donde 0 = zoom mínimo, 1 = zoom máximo
-        double zoomFactor = (currentScale - 0.24) / (1.0 - 0.24);
+        double zoomFactor = (currentScale - 0.1) / (1.0 - 0.1);
         zoomFactor = Math.max(0, Math.min(1, zoomFactor)); // Asegurar que esté entre 0 y 1
 
         // Calcular límites actuales interpolados
