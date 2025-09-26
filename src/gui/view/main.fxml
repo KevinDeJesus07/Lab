@@ -32,7 +32,7 @@
                  tabMinWidth="120">
             
             <!-- Pestaña Main -->
-            <Tab text="Main" fx:id="visualizationTab">
+            <Tab text="Árbol" fx:id="visualizationTab">
                 <style>
                     -fx-background-color: #9f7aea;
                     -fx-text-fill: white;
@@ -179,7 +179,7 @@
 
                         <!-- Botón de búsqueda -->
                         <Button text="Buscar Nodo" onAction="#onSearchNode" fx:id="buscarButton" 
-                                style="-fx-background-color: #ecc94b; -fx-text-fill: white -fx-font-weight: bold; -fx-font-size: 14px; -fx-padding: 12px 30px; -fx-border-radius: 8px; -fx-background-radius: 8px; -fx-pref-width: 350px;"/>
+                                style="-fx-background-color: #ecc94b; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 14px; -fx-padding: 12px 30px; -fx-border-radius: 8px; -fx-background-radius: 8px; -fx-pref-width: 350px;"/>
                     </VBox>
 
                     <!-- Resultado de la búsqueda -->
