@@ -4,15 +4,18 @@
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
             <file>file:/C:/Users/athen/Documents/NetBeansProjects/lab/src/Main/Main.java</file>
-            <file>file:/C:/Users/athen/Documents/NetBeansProjects/lab/src/Core/Utils/NodePosition.java</file>
             <file>file:/C:/Users/athen/Documents/NetBeansProjects/lab/src/gui/view/main.fxml</file>
-            <file>file:/C:/Users/athen/Documents/NetBeansProjects/lab/src/Core/Utils/Cell.java</file>
             <file>file:/C:/Users/athen/Documents/NetBeansProjects/lab/src/gui/MainApp.java</file>
+            <file>file:/C:/Users/athen/Documents/NetBeansProjects/lab/src/gui/controller/ContextoBusqueda.java</file>
+            <file>file:/C:/Users/athen/Documents/NetBeansProjects/lab/src/Core/Utils/NodeCell.java</file>
+            <file>file:/C:/Users/athen/Documents/NetBeansProjects/lab/src/Core/Utils/NodePosition.java</file>
+            <file>file:/C:/Users/athen/Documents/NetBeansProjects/lab/src/Core/Utils/Cell.java</file>
+            <file>file:/C:/Users/athen/Documents/NetBeansProjects/lab/src/Core/Utils/BinarySearchTree.java</file>
             <file>file:/C:/Users/athen/Documents/NetBeansProjects/lab/src/Core/Utils/BinaryTree.java</file>
             <file>file:/C:/Users/athen/Documents/NetBeansProjects/lab/src/Core/Utils/SelfBalancingBST.java</file>
+            <file>file:/C:/Users/athen/Documents/NetBeansProjects/lab/src/Main/data.csv</file>
             <file>file:/C:/Users/athen/Documents/NetBeansProjects/lab/src/gui/controller/MainController.java</file>
             <file>file:/C:/Users/athen/Documents/NetBeansProjects/lab/src/gui/controller/Tree.java</file>
-            <file>file:/C:/Users/athen/Documents/NetBeansProjects/lab/src/Core/Utils/NodeCell.java</file>
         </group>
     </open-files>
 </project-private>

@@ -8,74 +8,204 @@
 <BorderPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="gui.controller.MainController"
-            prefWidth="1024" prefHeight="768">  <!-- Tamaño reducido para ventana normal -->
+            prefWidth="1024" prefHeight="768"
+            style="-fx-background-color: #f8fafc;">  <!-- Fondo gris claro muy suave -->
 
-    <!-- Menú superior mejorado -->
+    <!-- Menú superior elegante y minimalista -->
     <top>
-        <MenuBar>
+        <MenuBar style="-fx-background-color: #ffffff; -fx-border-color: #cbd5e0; -fx-border-width: 0 0 1px 0;">
             <menus>
-                <Menu text="Árbol">
+                <Menu text="Recorrido" style="-fx-text-fill: #2d3748; -fx-font-size: 13px; -fx-font-weight: 600;">
                     <items>
-                        <MenuItem text="Visualización" onAction="#showVisualizationTab"/>
-                        <MenuItem text="Insertar" onAction="#showInsertTab"/>
-                        <MenuItem text="Eliminar" onAction="#showDeleteTab"/>
-                        <MenuItem text="Buscar" onAction="#showSearchTab"/>
-                    </items>
-                </Menu>
-                <!-- Menú adicional para controles de debug -->
-                <Menu text="Debug">
-                    <items>
-                        <MenuItem text="Mostrar variables" onAction="#showDebugInfo"/>
+                        <MenuItem text="Recorrido por Niveles" onAction="#onRecorridoNiveles" 
+                                 style="-fx-background-color: #ffffff; -fx-text-fill: #2d3748; -fx-font-size: 13px;"/>
                     </items>
                 </Menu>
             </menus>
         </MenuBar>
     </top>
 
-    <!-- Área central con TabPane para múltiples vistas -->
+    <!-- Área central con pestañas modernas -->
     <center>
-        <TabPane fx:id="mainTabPane" tabClosingPolicy="UNAVAILABLE">
-            <!-- Pestaña de visualización del árbol -->
-            <Tab text="Visualización" fx:id="visualizationTab">
+        <TabPane fx:id="mainTabPane" tabClosingPolicy="UNAVAILABLE"
+                 style="-fx-background-color: transparent; -fx-border-color: #e2e8f0; -fx-tab-min-width: 120;"
+                 tabMinWidth="120">
+            
+            <!-- Pestaña Main -->
+            <Tab text="Main" fx:id="visualizationTab">
+                <style>
+                    -fx-background-color: #9f7aea;
+                    -fx-text-fill: white;
+                    -fx-font-weight: 600;
+                </style>
                 <Pane fx:id="rootPane" prefWidth="1000" prefHeight="700" 
-                      style="-fx-background-color: white; -fx-border-color: lightgray;">
+                      style="-fx-background-color: #ffffff; -fx-border-color: #e2e8f0; -fx-border-radius: 8px; -fx-background-radius: 8px; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.08), 10, 0, 0, 2);">
                     <Group fx:id="treeGroup"/>
                 </Pane>
             </Tab>
             
-            <!-- Pestañas para operaciones -->
+            <!-- Pestaña Insertar -->
             <Tab text="Insertar" fx:id="insertTab">
-                <VBox spacing="10" alignment="TOP_LEFT" style="-fx-padding: 20;">
-                    <!-- Contenido de inserción aquí -->
-                    <Label text="Formulario de inserción"/>
-                    <TextField fx:id="insertField" promptText="Valor a insertar"/>
-                    <Button text="Insertar" onAction="#onInsertNode"/>
+                <style>
+                    -fx-background-color: #48bb78;
+                    -fx-text-fill: white;
+                    -fx-font-weight: 600;
+                </style>
+                <VBox spacing="25" alignment="CENTER" style="-fx-padding: 40;">
+                    <Label text="Formulario de Inserción de País" 
+                           style="-fx-font-size: 22px; -fx-font-weight: bold; -fx-text-fill: #2d3748; -fx-padding: 0 0 20px 0;"/>
+
+                    <VBox spacing="20" alignment="CENTER" style="-fx-pref-width: 400px;">
+                        <VBox spacing="8" alignment="CENTER_LEFT">
+                            <Label text="Nombre del país:" 
+                                   style="-fx-font-weight: 600; -fx-font-size: 14px; -fx-text-fill: #4a5568;"/>
+                            <TextField fx:id="nombreField" promptText="Ej: Colombia" 
+                                       style="-fx-background-color: #ffffff; -fx-border-color: #cbd5e0; -fx-border-width: 1.5px; -fx-border-radius: 6px; -fx-padding: 10px; -fx-pref-width: 350px; -fx-font-size: 14px;"/>
+                        </VBox>
+            
+                        <VBox spacing="8" alignment="CENTER_LEFT">
+                            <Label text="Código ISO (3 letras):" 
+                                   style="-fx-font-weight: 600; -fx-font-size: 14px; -fx-text-fill: #4a5568;"/>
+                            <TextField fx:id="isoField" promptText="Ej: COL" 
+                                       style="-fx-text-transform: uppercase; -fx-background-color: #ffffff; -fx-border-color: #cbd5e0; -fx-border-width: 1.5px; -fx-border-radius: 6px; -fx-padding: 10px; -fx-pref-width: 350px; -fx-font-size: 14px;"/>
+                        </VBox>
+            
+                        <!-- Sección de temperaturas por año -->
+                        <VBox spacing="8" alignment="CENTER_LEFT" style="-fx-pref-width: 400px;">
+                            <Label text="Variaciones de temperatura por año:" 
+                                   style="-fx-font-weight: 600; -fx-font-size: 14px; -fx-text-fill: #4a5568;"/>
+                
+                            <ScrollPane fx:id="temperaturaScrollPane" 
+                                        style="-fx-background-color: #ffffff; -fx-border-color: #cbd5e0; -fx-border-width: 1.5px; -fx-border-radius: 6px; -fx-pref-width: 400px; -fx-max-height: 200px;">
+                                <VBox fx:id="temperaturaContainer" spacing="5" style="-fx-padding: 10px;"/>
+                            </ScrollPane>
+                
+                            <!-- Botones de llenado rápido -->
+                            <HBox spacing="10" alignment="CENTER">
+                                <Button text="Llenar con 0.0" onAction="#fillWithZeros" 
+                                        style="-fx-background-color: #4299e1; -fx-text-fill: white; -fx-font-weight: 600; -fx-font-size: 12px; -fx-padding: 8px 16px; -fx-border-radius: 6px; -fx-background-radius: 6px;"/>
+                                <Button text="Llenar con valor único" onAction="#fillWithSingleValue" 
+                                        style="-fx-background-color: #4299e1; -fx-text-fill: white; -fx-font-weight: 600; -fx-font-size: 12px; -fx-padding: 8px 16px; -fx-border-radius: 6px; -fx-background-radius: 6px;"/>
+                            </HBox>
+                        </VBox>
+            
+                        <!-- Botón principal -->
+                        <Button text="Insertar País" onAction="#onInsertNode" fx:id="insertarButton" 
+                                style="-fx-background-color: #48bb78; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 14px; -fx-padding: 12px 30px; -fx-border-radius: 8px; -fx-background-radius: 8px; -fx-pref-width: 350px;"/>
+                    </VBox>
+
+                    <Label fx:id="mensajeLabel" style="-fx-text-fill: #e53e3e; -fx-font-weight: 600; -fx-font-size: 13px; -fx-alignment: center;"/>
                 </VBox>
             </Tab>
             
+            <!-- Pestaña Eliminar -->
             <Tab text="Eliminar" fx:id="deleteTab">
-                <VBox spacing="10" alignment="TOP_LEFT" style="-fx-padding: 20;">
-                    <!-- Contenido de eliminación aquí -->
-                    <Label text="Formulario de eliminación"/>
-                    <TextField fx:id="deleteField" promptText="Valor a eliminar"/>
-                    <Button text="Eliminar" onAction="#onDeleteNode"/>
+                <style>
+                    -fx-background-color: #f56565;
+                    -fx-text-fill: white;
+                    -fx-font-weight: 600;
+                </style>
+                <VBox spacing="25" alignment="CENTER" style="-fx-padding: 40;">
+                    <Label text="Eliminar por Temperatura" 
+                           style="-fx-font-size: 22px; -fx-font-weight: bold; -fx-text-fill: #2d3748; -fx-padding: 0 0 20px 0;"/>
+        
+                    <VBox spacing="20" alignment="CENTER" style="-fx-pref-width: 400px;">
+                        <VBox spacing="8" alignment="CENTER_LEFT">
+                            <Label text="Valor de temperatura a eliminar:" 
+                                   style="-fx-font-weight: 600; -fx-font-size: 14px; -fx-text-fill: #4a5568;"/>
+                            <TextField fx:id="temperaturaEliminarField" promptText="Ej: 1.5" 
+                                       style="-fx-background-color: #ffffff; -fx-border-color: #cbd5e0; -fx-border-width: 1.5px; -fx-border-radius: 6px; -fx-padding: 10px; -fx-pref-width: 350px; -fx-font-size: 14px;"/>
+                        </VBox>
+            
+                        <!-- Botón de eliminar -->
+                        <Button text="Eliminar Nodo(s)" onAction="#onDeleteNode" fx:id="eliminarButton" 
+                                style="-fx-background-color: #f56565; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 14px; -fx-padding: 12px 30px; -fx-border-radius: 8px; -fx-background-radius: 8px; -fx-pref-width: 350px;"/>
+                    </VBox>
+        
+                    <Label fx:id="mensajeEliminarLabel" style="-fx-text-fill: #e53e3e; -fx-font-weight: 600; -fx-font-size: 13px; -fx-alignment: center;"/>
                 </VBox>
             </Tab>
             
-            <Tab text="Buscar" fx:id="searchTab">
-                <VBox spacing="10" alignment="TOP_LEFT" style="-fx-padding: 20;">
-                    <!-- Contenido de búsqueda aquí -->
-                    <Label text="Formulario de búsqueda"/>
-                    <TextField fx:id="searchField" promptText="Valor a buscar"/>
-                    <Button text="Buscar" onAction="#onSearchNode"/>
+            <!-- Pestaña Búsquedas Avanzadas -->
+            <Tab text="Búsquedas Avanzadas" fx:id="searchTab">
+                <style>
+                    -fx-background-color: #4299e1;
+                    -fx-text-fill: white;
+                    -fx-font-weight: 600;
+                </style>
+                <VBox spacing="20" alignment="TOP_CENTER" style="-fx-padding: 30;">
+                    <Label text="Búsqueda de Nodos" style="-fx-font-size: 22px; -fx-font-weight: bold; -fx-text-fill: #2d3748;"/>
+        
+                    <VBox spacing="15" alignment="CENTER">
+                        <Label text="Tipo de búsqueda:" style="-fx-font-weight: 600; -fx-font-size: 14px; -fx-text-fill: #4a5568;"/>
+                        <ComboBox fx:id="tipoBusquedaComboBox" promptText="Seleccione tipo de búsqueda" 
+                                  style="-fx-background-color: #ffffff; -fx-border-color: #cbd5e0; -fx-border-width: 1.5px; -fx-border-radius: 6px; -fx-padding: 10px; -fx-pref-width: 350px; -fx-font-size: 14px;"/>
+                    </VBox>
+        
+                    <VBox spacing="15" fx:id="parametroBusquedaBox" visible="false" alignment="CENTER"/>
+        
+                    <Label fx:id="mensajeBusquedaLabel" style="-fx-text-fill: #e53e3e; -fx-font-weight: 600; -fx-font-size: 13px; -fx-alignment: center;"/>
+        
+                    <VBox spacing="15" fx:id="resultadosBox" visible="false" alignment="CENTER">
+                        <Label text="Resultados de la Búsqueda" style="-fx-font-weight: bold; -fx-font-size: 18px; -fx-text-fill: #2d3748;"/>
+                        <ScrollPane prefHeight="350" fitToWidth="true" 
+                                    style="-fx-background-color: transparent; -fx-border-color: #cbd5e0; -fx-border-width: 1px; -fx-border-radius: 8px;">
+                            <VBox alignment="CENTER" spacing="20">
+                                <FlowPane fx:id="resultadosFlowPane" hgap="25" vgap="25" alignment="CENTER"/>
+                            </VBox>
+                        </ScrollPane>
+                    </VBox>
+                </VBox>
+            </Tab>
+            
+            <!-- Pestaña Buscar Nodo -->
+            <Tab text="Buscar Nodo" fx:id="searchNodeTab">
+                <style>
+                    -fx-background-color: #ecc94b;
+                    -fx-text-fill: white;
+                    -fx-font-weight: 600;
+                </style>
+                <VBox spacing="25" alignment="CENTER" style="-fx-padding: 40;">
+                    <Label text="Buscar Nodo por Temperatura" 
+                           style="-fx-font-size: 22px; -fx-font-weight: bold; -fx-text-fill: #2d3748; -fx-padding: 0 0 20px 0;"/>
+
+                    <VBox spacing="20" alignment="CENTER" style="-fx-pref-width: 400px;">
+                        <VBox spacing="8" alignment="CENTER_LEFT">
+                            <Label text="Temperatura promedio a buscar:" 
+                                   style="-fx-font-weight: 600; -fx-font-size: 14px; -fx-text-fill: #4a5568;"/>
+                            <TextField fx:id="temperaturaBuscarField" promptText="Ej: 1.5" 
+                                       style="-fx-background-color: #ffffff; -fx-border-color: #cbd5e0; -fx-border-width: 1.5px; -fx-border-radius: 6px; -fx-padding: 10px; -fx-pref-width: 350px; -fx-font-size: 14px;"/>
+                        </VBox>
+
+                        <!-- Botón de búsqueda -->
+                        <Button text="Buscar Nodo" onAction="#onSearchNode" fx:id="buscarButton" 
+                                style="-fx-background-color: #ecc94b; -fx-text-fill: white -fx-font-weight: bold; -fx-font-size: 14px; -fx-padding: 12px 30px; -fx-border-radius: 8px; -fx-background-radius: 8px; -fx-pref-width: 350px;"/>
+                    </VBox>
+
+                    <!-- Resultado de la búsqueda -->
+                    <VBox fx:id="resultadoBusquedaBox" visible="false" spacing="15" alignment="CENTER" style="-fx-pref-width: 500px;">
+                        <Label text="Resultado de la Búsqueda" 
+                               style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #2d3748;"/>
+            
+                        <VBox fx:id="infoNodoBox" spacing="8" alignment="CENTER_LEFT" 
+                              style="-fx-background-color: #ffffff; -fx-border-color: #e2e8f0; -fx-border-width: 1.5px; -fx-border-radius: 8px; -fx-padding: 20px;">
+                            <!-- La información del nodo se llenará dinámicamente -->
+                        </VBox>
+            
+                        <!-- Botón de resaltar -->
+                        <Button text="Resaltar en Árbol" onAction="#onHighlightNode" 
+                                style="-fx-background-color: #ed8936; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 10px 25px; -fx-border-radius: 6px; -fx-background-radius: 6px;"/>
+                    </VBox>
+
+                    <Label fx:id="mensajeBuscarLabel" style="-fx-text-fill: #e53e3e; -fx-font-weight: 600; -fx-font-size: 13px; -fx-alignment: center;"/>
                 </VBox>
             </Tab>
         </TabPane>
     </center>
 
-    <!-- Barra inferior para información de debug -->
+    <!-- Barra inferior minimalista -->
     <bottom>
-        <Label fx:id="debugLabel" text="Debug: escala=1.0, x=0, y=0" 
-               style="-fx-background-color: #eee; -fx-padding: 5;"/>
+        <Label fx:id="debugLabel" text="Sistema de Árboles AVL - Listo" 
+               style="-fx-background-color: #2d3748; -fx-text-fill: #e2e8f0; -fx-padding: 8px; -fx-font-size: 12px; -fx-alignment: center;"/>
     </bottom>
 </BorderPane>

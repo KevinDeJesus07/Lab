@@ -207,4 +207,110 @@ public class SelfBalancingBST extends BinarySearchTree {
             inOrderRecursive(node.right, result);
         }
     }
+
+    // ==================== MÉTODOS AUXILIARES ====================
+    /**
+     * Encuentra el nivel de un nodo con temperatura específica
+     */
+    public int getNodeLevel(double temperatura) {
+        return getNodeLevel(root, temperatura, 1);
+    }
+
+    private int getNodeLevel(NodeCell node, double temperatura, int level) {
+        if (node == null) {
+            return -1;
+        }
+        if (Math.abs(node.cell.FM - temperatura) < 0.0001) {
+            return level;
+        }
+
+        if (temperatura < node.cell.FM) {
+            return getNodeLevel(node.left, temperatura, level + 1);
+        } else {
+            return getNodeLevel(node.right, temperatura, level + 1);
+        }
+    }
+
+    /**
+     * Encuentra el factor de balance de un nodo específico
+     */
+    public int getNodeBalance(double temperatura) {
+        NodeCell node = findNode(root, temperatura);
+        return node != null ? getBalance(node) : Integer.MIN_VALUE;
+    }
+
+    /**
+     * Encuentra el padre de un nodo
+     */
+    public Cell getParentNode(double temperatura) {
+        NodeCell parent = findParent(root, temperatura, null);
+        return parent != null ? parent.cell : null;
+    }
+
+    private NodeCell findParent(NodeCell current, double temperatura, NodeCell parent) {
+        if (current == null) {
+            return null;
+        }
+
+        if (Math.abs(current.cell.FM - temperatura) < 0.0001) {
+            return parent;
+        }
+
+        NodeCell found = findParent(current.left, temperatura, current);
+        if (found != null) {
+            return found;
+        }
+
+        return findParent(current.right, temperatura, current);
+    }
+
+    /**
+     * Encuentra el abuelo de un nodo
+     */
+    public Cell getGrandparentNode(double temperatura) {
+        NodeCell parent = findParent(root, temperatura, null);
+        if (parent == null) {
+            return null;
+        }
+
+        NodeCell grandparent = findParent(root, parent.cell.FM, null);
+        return grandparent != null ? grandparent.cell : null;
+    }
+
+    /**
+     * Encuentra el tío de un nodo
+     */
+    public Cell getUncleNode(double temperatura) {
+        NodeCell parent = findParent(root, temperatura, null);
+        if (parent == null) {
+            return null;
+        }
+
+        NodeCell grandparent = findParent(root, parent.cell.FM, null);
+        if (grandparent == null) {
+            return null;
+        }
+
+        // El tío es el hermano del padre
+        if (grandparent.left == parent) {
+            return grandparent.right != null ? grandparent.right.cell : null;
+        } else {
+            return grandparent.left != null ? grandparent.left.cell : null;
+        }
+    }
+
+    private NodeCell findNode(NodeCell node, double temperatura) {
+        if (node == null) {
+            return null;
+        }
+
+        if (Math.abs(node.cell.FM - temperatura) < 0.0001) {
+            return node;
+        } else if (temperatura < node.cell.FM) {
+            return findNode(node.left, temperatura);
+        } else {
+            return findNode(node.right, temperatura);
+        }
+    }
+
 }
